@@ -6,8 +6,14 @@ public class BatController : MonoBehaviour
 
     void Update()
     {
-        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mousePosition.z = 0;
-        transform.position = Vector2.Lerp(transform.position, mousePosition, speed * Time.deltaTime);
+        UpdateGame();
+    }
+    void UpdateGame()
+    {
+        Vector3 mousePosition = Input.mousePosition;
+        mousePosition.z = Camera.main.nearClipPlane;
+        Vector3 targetPosition = Camera.main.ScreenToWorldPoint(mousePosition);
+        targetPosition.z = 0;
+        transform.position = Vector2.Lerp(transform.position, targetPosition, speed * Time.deltaTime);
     }
 }
