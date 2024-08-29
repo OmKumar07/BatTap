@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    public GameModel model;
-    private GameView view;
+    private GameModel model;
+    public GameView view;
 
     private void Start()
     {
-        view = gameObject.GetComponent<GameView>();
+        model = new GameModel();
         view.UpdateScore(model.Score);
         view.HideGameOver();
     }
@@ -18,10 +18,24 @@ public class GameController : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
+                Time.timeScale = 1;
                 model.ResetGame();
                 view.UpdateScore(model.Score);
                 view.HideGameOver();
             }
         }
+    }
+
+    public void OnBallHitBat()
+    {
+        model.AddScore(1);
+        view.UpdateScore(model.Score);
+    }
+
+    public void OnBallHitGround()
+    {
+        model.GameOver();
+        view.ShowGameOver();
+        Time.timeScale = 0;
     }
 }

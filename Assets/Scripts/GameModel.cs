@@ -1,11 +1,12 @@
-using UnityEngine;
-
-public class GameModel : MonoBehaviour
+public class GameModel
 {
-    public int Score;
-    public bool IsGameOver;
+    public int Score { get; private set; }
+    public bool IsGameOver { get; private set; }
 
-
+    public GameModel()
+    {
+        ResetGame();
+    }
 
     public void ResetGame()
     {

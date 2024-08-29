@@ -6,9 +6,10 @@ public class BatController : MonoBehaviour
 
     void Update()
     {
-        UpdateGame();
+        UpdateBatPosition();
     }
-    void UpdateGame()
+
+    private void UpdateBatPosition()
     {
         Vector3 mousePosition = Input.mousePosition;
         mousePosition.z = Camera.main.nearClipPlane;
