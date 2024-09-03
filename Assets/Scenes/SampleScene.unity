@@ -628,7 +628,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 5
+  m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0
   m_GravityScale: 1
@@ -685,11 +685,11 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 3ba26b6bb00bfe5419e6121524dc4ad3, type: 3}
-  m_Color: {r: 0.7924528, g: 0.47472408, b: 0.47472408, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.2, y: 0.2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -705,7 +705,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.85, y: 0.85, z: 0.85}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1741600005}
@@ -723,7 +723,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbbf84aa01c4dc943ac558e7fb1491c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  batController: {fileID: 1595788876}
   gameController: {fileID: 1262292681}
+  bounceForce: 3
 --- !u!1 &881644998
 GameObject:
   m_ObjectHideFlags: 0
@@ -1274,6 +1276,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1595788877}
   - component: {fileID: 1595788876}
+  - component: {fileID: 1595788878}
   m_Layer: 0
   m_Name: Bat
   m_TagString: Untagged
@@ -1294,6 +1297,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
+  maxY: -2
 --- !u!4 &1595788877
 Transform:
   m_ObjectHideFlags: 0
@@ -1303,13 +1307,48 @@ Transform:
   m_GameObject: {fileID: 1595788875}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.01, y: -3.31, z: 0.1614867}
+  m_LocalPosition: {x: 0.01, y: -5, z: 0.1614867}
   m_LocalScale: {x: 0.9, y: 0.9, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1880633681}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!70 &1595788878
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1595788875}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.01988464, y: 1.6617792}
+  m_Size: {x: 1.4412085, y: 3.3160703}
+  m_Direction: 0
 --- !u!1 &1741600004
 GameObject:
   m_ObjectHideFlags: 0
@@ -1337,7 +1376,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 795993827}
@@ -1351,7 +1390,7 @@ TrailRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1741600004}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -1393,22 +1432,22 @@ TrailRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: -1.066038
-        outSlope: -1.066038
+        time: 0.002948761
+        value: 0.8200015
+        inSlope: -0.73964065
+        outSlope: -0.73964065
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
-        outWeight: 0.3458101
+        outWeight: 0.36121792
       - serializedVersion: 3
         time: 0.45210412
         value: 0.46933898
-        inSlope: -0.9488531
-        outSlope: -0.9488531
+        inSlope: -0.8341533
+        outSlope: -0.8341533
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.28228092
+        inWeight: 0.2775666
         outWeight: 0.30008432
       - serializedVersion: 3
         time: 1
@@ -1605,7 +1644,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 1840226921}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 146bfc94a1bece44eb5f24401a4b1a3b, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -1735,7 +1774,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 1859529739}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 146bfc94a1bece44eb5f24401a4b1a3b, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -1970,7 +2009,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 1860722196}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 146bfc94a1bece44eb5f24401a4b1a3b, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -2083,7 +2122,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1880633681}
   - component: {fileID: 1880633680}
-  - component: {fileID: 1880633683}
   m_Layer: 0
   m_Name: Bat
   m_TagString: Untagged
@@ -2132,7 +2170,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 752bf02a3ab9e4345950149755e4fcac, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 118410651b363a44581b462bb4808be8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2153,46 +2191,11 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.01, y: 3.2340155, z: -0.1614867}
-  m_LocalScale: {x: 1, y: 0.9872, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1595788877}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!70 &1880633683
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1880633678}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.01164341, y: -2.4911609}
-  m_Size: {x: 2.0808368, y: 3.4574604}
-  m_Direction: 0
 --- !u!1 &1966531926
 GameObject:
   m_ObjectHideFlags: 0
