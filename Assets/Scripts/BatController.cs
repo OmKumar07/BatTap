@@ -3,12 +3,13 @@ using UnityEngine;
 public class BatController : MonoBehaviour
 {
     public float speed = 10f;
-    public float maxY = -1f;
 
     private Vector3 previousPosition;
     private Vector3 batVelocity;
     private bool isDragging = false;
     private Vector3 dragOffset;
+
+    public GameView gameView;
 
     void Start()
     {
@@ -17,57 +18,60 @@ public class BatController : MonoBehaviour
 
     void Update()
     {
-        HandleInput();
-    }
-
-    private void HandleInput()
-    {
         if (Input.GetMouseButtonDown(0))
         {
-            Vector3 mousePosition = Input.mousePosition;
-            mousePosition.z = Camera.main.nearClipPlane;
-            Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
+            StartDragging();
+            gameView.BatAnimTap();
+            transform.gameObject.GetComponent<CapsuleCollider2D>().enabled = false;
 
-            
-            if (GetComponent<Collider2D>().OverlapPoint(worldPosition))
-            {
-                isDragging = true;
-                dragOffset = transform.position - worldPosition;
-            }
         }
-
-        if (Input.GetMouseButton(0) && isDragging)
+        else if (Input.GetMouseButton(0) && isDragging)
         {
             UpdateBatPosition();
-            CalculateBatVelocity();
+            transform.gameObject.GetComponent<CapsuleCollider2D>().enabled = false;
         }
-
-        if (Input.GetMouseButtonUp(0))
+        else if (Input.GetMouseButtonUp(0))
         {
-            isDragging = false;
-            batVelocity = Vector3.zero;
+            StopDragging();
+            gameView.BatAnimRelease();
+            transform.gameObject.GetComponent<CapsuleCollider2D>().enabled = true;
+
         }
+    }
+
+    private void StartDragging()
+    {
+        Vector3 worldPosition = GetWorldPositionFromInput();
+
+        if (GetComponent<Collider2D>().OverlapPoint(worldPosition))
+        {
+            isDragging = true;
+            dragOffset = transform.position - worldPosition;
+        }
+    }
+
+    private void StopDragging()
+    {
+        isDragging = false;
+        batVelocity = Vector3.zero;
     }
 
     private void UpdateBatPosition()
     {
-        Vector3 mousePosition = Input.mousePosition;
-        mousePosition.z = Camera.main.nearClipPlane;
-        Vector3 targetPosition = Camera.main.ScreenToWorldPoint(mousePosition) + dragOffset;
-        targetPosition.z = 0;
+        Vector3 targetPosition = GetWorldPositionFromInput() + dragOffset;
 
-        if (targetPosition.y > maxY)
-        {
-            targetPosition.y = maxY;
-        }
+        targetPosition.y = transform.position.y;
 
         transform.position = Vector2.Lerp(transform.position, targetPosition, speed * Time.deltaTime);
-    }
-
-    private void CalculateBatVelocity()
-    {
         batVelocity = (transform.position - previousPosition) / Time.deltaTime;
         previousPosition = transform.position;
+    }
+
+    private Vector3 GetWorldPositionFromInput()
+    {
+        Vector3 mousePosition = Input.mousePosition;
+        mousePosition.z = Camera.main.nearClipPlane;
+        return Camera.main.ScreenToWorldPoint(mousePosition);
     }
 
     public Vector3 GetBatVelocity()

@@ -7,23 +7,11 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
+        Application.targetFrameRate = 60;
         model = new GameModel();
         view.UpdateScore(model.Score);
         view.HideGameOver();
-    }
 
-    private void Update()
-    {
-        if (model.IsGameOver)
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                Time.timeScale = 1;
-                model.ResetGame();
-                view.UpdateScore(model.Score);
-                view.HideGameOver();
-            }
-        }
     }
 
     public void OnBallHitBat()
@@ -34,8 +22,17 @@ public class GameController : MonoBehaviour
 
     public void OnBallHitGround()
     {
-        model.GameOver();
-        view.ShowGameOver();
-        Time.timeScale = 0;
+        model.LoseChance();
+        view.UpdateChances(model.RemainingChances);
+        if (model.RemainingChances <= 0)
+        {
+            view.ShowGameOver();
+            Time.timeScale = 0;
+            model.GameOver();
+        }
+        else
+        {
+            StartCoroutine(view.fall());
+        }
     }
 }
